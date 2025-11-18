@@ -249,15 +249,8 @@ XrResult WINAPI wine_xrGetVulkanInstanceExtensionsKHR(XrInstance instance,
   /* Linux SteamVR does not return xlib_surface, but Windows SteamVR _does_
    * return win32_surface. Some games (including hello_xr) depend on that, so
    * add it here. */
-  const char *sgi = getenv("SteamGameId");
-  
-  if (sgi && strcmp(sgi, "284160") == 0) {
-      *bufferCountOutput = 0;
-      return XR_SUCCESS;
-  }
-  
-  res = g_xr_host_instance_dispatch_table.p_xrGetVulkanInstanceExtensionsKHR(
-      wine_instance_from_handle(instance)->host_instance, systemId, bufferCapacityInput, bufferCountOutput, buffer);
+
+  res = XR_SUCCESS;
   if (res == XR_SUCCESS) {
     if (bufferCapacityInput > 0) {
       /* *bufferCountOutput is not required to (and sometimes does not) contain the offset to the NUL byte */
